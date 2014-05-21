@@ -1,0 +1,54 @@
+<?php
+//$cpath='cache/community/'.$profile->id;
+//$cfile=$cpath.'/companyinfo.html';
+//$generateCache=0;
+//if(!file_exists($cpath))mkdir($cpath, 0777, true);
+//if(!file_exists($cfile))$generateCache=1;
+//else if(time()-filemtime($cfile)>=43200){$generateCache=1;unlink($cfile);}
+//else{echo file_get_contents($cfile);return;}
+//ob_start();?>
+<br />
+<div class="jomUserItemAbout" style="margin-bottom: 25px">
+<?php
+require_once( JPATH_BASE . DS . 'components' . DS . 'com_community' . DS . 'libraries' . DS . 'core.php');
+$userinf = & CFactory::getActiveProfile();
+echo $userinf->getInfo("FIELD_ABOUTME");
+?>
+</div>
+<div class="left-box">
+	<h3><?php echo JText::_('COM_COMMUNITY_ISSUER_INFORMATION'); ?></h3>
+<?php
+$io=0;
+foreach($profileArray["Issuer Information"] as $itemi) { ?>
+		<div class="c-<?php echo $io ?>">
+			<span class="label-t"><?php echo $itemi["name"]; ?>:</span>
+			<span class="value-f"><?php echo $itemi["value"]; ?></span>
+		</div>
+<?php $io=1-$io;}?>
+</div>
+<div class="right-box">
+	<h3><?php echo JText::_('COM_COMMUNITY_CONTACT_INFORMATION'); ?></h3>
+	<?php
+	$io=0;
+	foreach($profileArray["Contact Information"] as $itemi) { ?>
+		<div class="c-<?php echo $io ?>">
+			<span class="label-t"><?php echo $itemi["name"]; ?>:</span>
+			<span class="value-f"><?php echo $itemi["value"]; ?></span>
+		</div>
+	<?php $io=1-$io;}?>
+	<?php
+	$website = $profileArray['Personal Details'][2]['value'];
+	if($website != ''){
+		?>
+		<div class="c-<?php echo $io ?>">
+			<span class="label-t">Website:</span>
+			<span class="value-f"><a href="<?php echo $website; ?>" target="_blank"><?php echo $website; ?></a></span>
+		</div>
+	<?php
+	}
+	?>
+</div><br />
+<?php
+//file_put_contents($cfile,preg_replace('(\r|\n|\t|<\!--.*-->)','',ob_get_contents()));
+//ob_end_clean();
+//echo file_get_contents($cfile);

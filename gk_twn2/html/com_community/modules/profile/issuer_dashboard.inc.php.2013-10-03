@@ -1,0 +1,174 @@
+<style>.js_PriCell{visibility:hidden;}</style>
+<script language="javascript" type="text/javascript">function resizeIframe(obj) {obj.style.height = '0px';obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';}</script>
+<h1 class="issuertitle"><?php echo JText::_("EQUITIES ISSUER DASHBOARD"); ?></h1>
+<hr /><br />
+<div style="float:left; width:69%" class="issuer-dashboard">
+    {tab Wall|block}
+    <?php require_once 'wall.inc.php'; ?>
+
+    {tab Profile|block}
+    <?php require_once 'company_info.inc.php'; ?>
+
+    {tab Videos|block}
+    <div class="socialConnectUserInfo">
+        <ul class="socialConnectUserMenu">
+            <li><a onclick="joms.videos.addVideo()" href="javascript: void(0);">Add</a></li>
+        </ul>
+    </div>
+    <?php require_once 'videos.inc.php'; ?>
+
+    {tab Blog|block}
+    <div class="socialConnectUserInfo">
+        <ul class="socialConnectUserMenu">
+            <li>
+                <a class="modal socialConnectAddLink" rel="{handler:'iframe',size:{x:990,y:550}}" href="<?php echo JRoute::_('index.php?option=com_k2&view=item&task=add&tmpl=component&itemformtype=67'); ?>"><?php echo JText::_('Add Update'); ?></a>
+            </li>
+        </ul>
+    </div>
+    <?php require_once 'blog.inc.php'; ?>
+
+    <?php
+    //{tab News}
+    //require_once 'news2.inc.php'; 
+    ?>
+
+
+    <?php
+    //{tab Editorial}
+    /* <div class="socialConnectUserInfo">
+      <ul class="socialConnectUserMenu">
+      <li>
+      <a class="modal socialConnectAddLink" rel="{handler:'iframe',size:{x:990,y:550}}" href="<?php echo JRoute::_('index.php?option=com_k2&view=item&task=add&tmpl=component'); ?>"><?php echo JText::_('Add Update'); ?></a>
+      </li>
+      </ul>
+      </div>
+      require_once 'newsdata.inc.php'; */
+    //require_once 'news.inc.php'; 
+    ?>
+
+    <?php
+//	{tab Followers}
+//	echo '<div><h4>'.JText::_('FOLLOWERS_FROM_EQUITIES').'</h4><br />';
+//	require_once 'followers.inc.php'
+//	echo '</div>';
+    ?>
+
+    {tab Syndication|eqlogo}
+    <div class="socialConnectUserInfo">
+        <ul class="socialConnectUserMenu">
+            <li>
+                <a class="modal socialConnectAddLink" rel="{handler:'iframe',size:{x:990,y:550}}" href="<?php echo JRoute::_('index.php?option=com_k2&view=item&task=add&tmpl=component&itemformtype=66'); ?>"><?php echo JText::_('Add Update'); ?></a>
+            </li>
+        </ul>
+    </div>
+    <?php require_once 'equities_wire.inc.php'; ?>
+	
+	{tab Wire|eqlogo}
+	<?php require_once 'gnw.inc.php'; ?>
+
+    {tab LIVE|eqlogo}
+    <?php
+    //require_once 'vchat.inc.php';  
+    require_once 'avconference.inc.php';
+    ?>
+
+    <?php //{tab Trending}  ?>
+    <?php //require_once 'trending.inc.php';  ?>
+
+    {tab Notifications|block}
+    <?php require_once 'notifications.inc.php'; ?>
+
+    {tab Settings|block}
+<?php require_once 'edit_issuer_profile.inc.php'; ?>
+    {/tabs}
+
+</div>
+
+<div style="float:left; width:1%">&nbsp;</div>
+<div style="float:left; width:30%" id="issuer_dash">
+    <div class="search_stock">
+		{module 392}
+        <?php
+        jimport('joomla.application.module.helper');
+        $module = JModuleHelper::getModule('jcsearch');
+        $attribs['style'] = 'xhtml';
+        echo JModuleHelper::renderModule($module, $attribs);
+        ?>
+    </div>
+    <div style="clear:both"></div>
+    <div style="background:#E9E9E9; padding:10px">
+        <div style="text-align:center;">
+            <div style="display: block;" >
+                    <a target="_blank" href="<?php echo JURI::base(); ?>community/<?php echo str_replace(":", "-", K2JomUtilities::getCommunityURLFragment($profile->id)); ?>/profile?profile=public"><img src="<?php echo $profile->largeAvatar; ?>" alt="<?php echo $this->escape($user->getDisplayName()); ?>"  /></a>
+<!--                <a href="<?php echo JURI::base(); ?>community/profile/uploadAvatar"><img src="<?php echo $profile->largeAvatar; ?>" alt="<?php echo $this->escape($user->getDisplayName()); ?>"  /></a>-->
+            </div>
+            <div>
+                <h2 style="font-weight: normal">
+<?php echo $user->getDisplayName(); ?> (<?php echo $user->username; ?>)
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div>
+        <link rel="stylesheet" type="text/css" href="http://app.quotemedia.com/css/tools.css" />
+        <style type="text/css" >
+            .qmmt_main	{ background:none; border:none;  } 
+            .qmmt_text		{ font: 11px  arial;color: #666666; text-align:left;  padding:2px;}
+
+            .qmmt_text_up		{ font: 11px  arial; color: #009900; }
+            .qmmt_text_down	{ font: 11px  arial; color: #ff0000; }
+
+            .qmmt_tab				 { font: 11px  arial; border:1px solid #ffffff; color:#666; background: #eeeeee; }
+            .qmmt_tabactive 	 { font: 11px  arial; border:1px solid #ffffff; }
+
+            .qmmt_cycle	{ background-color:#eeeeee; color: #666666; }
+
+            .qmmt_header_text	{ font-family: arial, sans-serif; color: #000000;  }
+            .qmmt_header_bar	{ background-color:#fff; border:none; }
+
+            a.qmmt_text 				{ color: #185487; text-decoration:none;  }
+            a:visited.qmmt_text 	{ color: #185487; text-decoration:none; }
+            a:hover.qmmt_text 	{ color: #185487; text-decoration:none; }  
+
+            .qmmt_nonrt_text { font: oblique 10px  arial;color: #666666; font-weight:normal; }
+
+        </style>
+<?php $userObj = JFactory::getUser($profile->id); ?>
+        <script LANGUAGE="javascript" TYPE="text/javascript" src="http://app.quotemedia.com/quotetools/miniQuoteChart.go?webmasterId=101598&symbol=<?php echo $userObj->username; ?>&toolWidth=259&chhig=180&chcon=off&symbols=^FCHI&symbols=^BFX&symbols=^MIBTEL&symbols=^GDAXI&chbg=ffffff&chbgch=ffffff&chfill=cc318DCA&chfill2=318DCA&chln=333333"></script>
+    </div>
+    <div class="box nsp headlines big" style="margin-bottom: 22px">
+        <div>
+            <h3 class="header">
+                <span style="border-bottom: 1px solid #C7C7C7;margin: 0px;">Dedicated Account Manager</span>
+            </h3>
+            <div class="content">
+                <img src="/images/johndoe.jpg" style="display:block; float:left; border:1px solid #C7C7C7" />
+                <div style="float:left; margin-left: 10px">
+                    <span style="font-size: 14px; font-weight: bold; display: block; margin-bottom: 10px;">Dedicated Account Support</span>
+                    <a style="font-size: 16px; color:#185487; display: block; margin-bottom: 10px" href="mailto:support@equities.com">support@equities.com</a>
+                    <span style="font-size: 14px; font-weight: bold;">310.576.6100</span>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--    <div class="box nsp headlines big">
+        <div>
+            <h3 class="header"><span style="border-bottom: 1px solid #C7C7C7;margin: 0px;">Knowledge Base</span></h3>
+            <div class="content">
+                <ol style="list-style: decimal">
+                    <li style="padding-left: 0px; background: none"><a href="#" style="color:#185487">HSBS brings in Zimmorhansi to head securities lending</a></li>
+                    <li style="padding-left: 0px; background: none"><a href="#" style="color:#185487">China Quietly Invests Reserves in U.K. Properties</a></li>
+                    <li style="padding-left: 0px; background: none"><a href="#" style="color:#185487">Pensions, HSBS and BNP Paribas</a></li>
+                    <li style="padding-left: 0px; background: none"><a href="#" style="color:#185487">U.S. Stock Futures Little Changed After GDP, Claims Data</a></li>
+                    <li style="padding-left: 0px; background: none"><a href="#" style="color:#185487">China Quietly Invests Reserves in U.K. Properties</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>-->
+    <div class="box nsp headlines big" style="display:none">
+        <div>
+            <h3 class="header"><span style="border-bottom: 1px solid #C7C7C7;margin: 0px;">Most Popular</span></h3>
+            <div class="content">{module 380}</div>
+        </div>
+    </div>
+</div>

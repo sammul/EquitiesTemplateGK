@@ -1,0 +1,47 @@
+/*
+#------------------------------------------------------------------------
+# The World News II - July 2011 template (for Joomla 1.6/1.7)
+#
+# Copyright (C) 2007-2011 Gavick.com. All Rights Reserved.
+# License: Copyrighted Commercial Software
+# Website: http://www.gavick.com
+# Support: support@gavick.com 
+*/
+
+/* Here you can include your override CSS styles */
+
+.creambox h3 span{	background: url("../images/home-icons-sprites-graybg.png") no-repeat scroll right 2px #666666 !important;}
+.greenbox h3 span{	background: url("../images/home-icons-sprites-graybg.png") no-repeat scroll right -30px #666666 !important;}
+.cap h3 span{	background: url("../images/home-icons-sprites-graybg.png") no-repeat scroll right -326px #666666 !important;}
+
+.ipo h3 span{	background: url("../images/home-icons-sprites-graybg.png") no-repeat scroll right -293px #666666 !important;}
+.brownbox h3 span{	background: url("../images/home-icons-sprites-graybg.png") no-repeat scroll right -63px #666666 !important;}
+.orangebox h3 span{	background: url("../images/home-icons-sprites-graybg.png") no-repeat scroll right -96px #666666 !important;}
+
+.purplebox h3 span{	background: url("../images/home-icons-sprites-graybg.png") no-repeat scroll right -129px #666666 !important;}
+.bluebox h3 span{	background: url("../images/home-icons-sprites-graybg.png") no-repeat scroll right -161px #666666 !important;}
+.sector h3 span{	background: url("../images/home-icons-sprites-graybg.png") no-repeat scroll right -359px #666666 !important;}
+
+.mixbox h3 span{	background: url("../images/home-icons-sprites-graybg.png") no-repeat scroll right -194px #666666 !important;}
+.lpurplebox h3 span{	background: url("../images/home-icons-sprites-graybg.png") no-repeat scroll 97% -228px #666666 !important;}
+.dbrownbox h3 span{	background: url("../images/home-icons-sprites-graybg.png") no-repeat scroll right -260px #666666 !important;}
+
+
+.fbc{background:url("../images/social-icons-sprites.png") no-repeat scroll 0 bottom transparent;}
+.fbc:hover{background:url("../images/social-icons-sprites.png") no-repeat scroll 0 top transparent;}
+
+.twc{background:url("../images/social-icons-sprites.png") no-repeat scroll -32px bottom transparent;}
+.twc:hover{background:url("../images/social-icons-sprites.png") no-repeat scroll -32px top transparent;}
+
+.ytc{background:url("../images/social-icons-sprites.png") no-repeat scroll -64px bottom transparent;}
+.ytc:hover{background:url("../images/social-icons-sprites.png") no-repeat scroll -64px top transparent;}
+
+.lic{background:url("../images/social-icons-sprites.png") no-repeat scroll -96px bottom transparent;}
+.lic:hover{background:url("../images/social-icons-sprites.png") no-repeat scroll -96px top transparent;}
+
+
+
+.comm img{
+	margin-left: 0;
+    margin-right: 5px;
+	}

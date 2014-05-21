@@ -1,0 +1,256 @@
+<!-- begin: .profile-box -->
+<div class="cPageHeader">
+
+    <div class="cPageAvatar cFloat-L">
+        <div>
+            <img src="<?php echo $profile->largeAvatar; ?>" alt="<?php echo $this->escape($user->getDisplayName()); ?>" width="180" style="display: block;margin-bottom: 5px;" />
+			<?php if ($isMine): ?>
+	            <b class="cAvatarOptionCustom">
+					<a href="javascript:void(0)" onclick="joms.photos.uploadAvatar('profile', '<?php echo $profile->id ?>')"><?php echo JText::_('COM_COMMUNITY_CHANGE_AVATAR') ?></a>
+	            </b>
+			<?php endif; ?>
+        </div>
+        <div>
+			<?php $current_user_parsing = & JFactory::getUser(); ?>
+			<?php if (!$isFriend && !$isMine && !$isBlocked && !in_array(9, $current_user_parsing->groups)): ?>
+				<?php if (!$isWaitingApproval): ?>
+					<a href="javascript:void(0)" onclick="joms.friends.connect('<?php echo $profile->id; ?>')">
+						<span class="buttonfollow"><img src="<?php echo JURI::base(); ?>images/icons/plus.png" /><?php echo JText::_('COM_COMMUNITY_FRIENDS_ADD_BUTTON'); ?></span>
+					</a>
+				<?php else : ?>
+					<a href="javascript:void(0)" onclick="joms.friends.connect('<?php echo $profile->id; ?>')">
+						<i class="com-icon-info"></i>
+						<span><?php echo JText::_('COM_COMMUNITY_PROFILE_PENDING_FRIEND_REQUEST'); ?></span>
+					</a>
+				<?php endif ?>
+
+			<?php endif; ?>
+
+			<?php if (!$isMine && $config->get('enablepm')): ?>
+	            <a onclick="<?php echo $sendMsg; ?>" href="javascript:void(0);">
+					<span class="buttonfollow"><img src="/images/icons/mail.png" /><?php echo JText::_('COM_COMMUNITY_MESSAGE'); ?></span>
+	            </a>
+			<?php endif; ?>
+
+			<?php if ($isMine && in_array(3, $user_parsing->groups)): ?>
+	            <div class="socialConnectUserInfo">
+					<ul class="socialConnectUserMenu">
+						<li>
+							<a class="modal socialConnectAddLink" rel="{handler:'iframe',size:{x:990,y:550}}" href="<?php echo JRoute::_('index.php?option=com_k2&view=item&task=add&tmpl=component'); ?>"><?php echo JText::_('COM_COMMUNITY_ADD_NEW_ITEM'); ?></a>
+						</li>
+						<!--li>
+						   <a class="socialConnectCommentsLink modal" rel="{handler:'iframe',size:{x:990,y:550}}" href="<?php echo JRoute::_('index.php?option=com_k2&view=comments&tmpl=component'); ?>"><?php echo JText::_('COM_COMMUNITY_MY_COMMENTS'); ?></a>
+						</li>
+						<li>
+						   <a class="socialConnectUserLink modal" rel="{handler:'iframe',size:{x:990,y:550}}" href="<?php echo JRoute::_('index.php?option=com_k2&view=articles&tmpl=component'); ?>"><?php echo JText::_('COM_COMMUNITY_MY_ARTICLES'); ?></a>
+						</li-->
+					</ul>
+
+	            </div>
+			<?php endif; ?>
+
+            <ul class="listlinksjomsocial">
+                <li><a href="<?php echo CRoute::_('index.php?option=com_community&view=followers&userid=' . $profile->id); ?>"><img alt="<?php echo JText::_('COM_COMMUNITY_FRIENDS'); ?>" src="<?php echo JURI::base(); ?>images/icons/followers.png" /><?php echo JText::_('COM_COMMUNITY_FRIENDS'); ?>&nbsp;(<?php echo CExtraHelper::getTotalNumberOfFollowers($profile->id); ?>)</a></li>
+                <li><a href="<?php echo CRoute::_('index.php?option=com_community&view=following&userid=' . $profile->id); ?>"><img alt="<?php echo JText::_('COM_COMMUNITY_FOLLOWING'); ?>" src="<?php echo JURI::base(); ?>images/icons/following.png" /><?php echo JText::_('COM_COMMUNITY_FOLLOWING'); ?>&nbsp;(<?php echo CExtraHelper::getTotalNumberOfFollowing($profile->id); ?>)</a></li>
+                <li><a href="#"><img alt="<?php echo JText::_('COM_COMMUNITY_COMMENTS'); ?>" src="<?php echo JURI::base(); ?>images/icons/messages.png" /><?php echo JText::_('COM_COMMUNITY_COMMENTS'); ?></a></li>
+				<?php if (in_array(3, $user_parsing->groups)) { ?>
+	                <li><a href="#"><img alt="<?php echo JText::_('COM_COMMUNITY_ARTICLES'); ?>" src="<?php echo JURI::base(); ?>images/icons/articles.png" /><?php echo JText::_('COM_COMMUNITY_ARTICLES'); ?> (<?php echo K2JomUtilities::getTotalNumberOfArticles($profile->id); ?>)</a></li>
+				<?php }; ?>
+            </ul>
+			<?php if (in_array(3, $user_parsing->groups)) { ?>
+	            <div>
+	                <a href="<?php echo $profileArray["Social Networks"][0]["value"]; ?>" class="marginright" target="_blank"><img alt="tw" src="/images/icons/twitter.png" /></a>
+	                <a href="<?php echo $profileArray["Social Networks"][1]["value"]; ?>" class="marginright" target="_blank"><img alt="fb" src="/images/icons/facebook.png" /></a>
+	                <a href="<?php echo $profileArray["Social Networks"][2]["value"]; ?>" class="marginright" target="_blank"><img alt="gp" src="/images/icons/googleplus.png" /></a>
+	                <a href="<?php echo $profileArray["Social Networks"][3]["value"]; ?>" class="marginright" target="_blank"><img alt="ln" src="/images/icons/linkedin.png"  /></a>
+	            </div>
+			<?php } ?>
+        </div>
+
+        <span class="cPage-Like" id="like-container" style="display:none"><?php echo $likesHTML; ?></span>
+
+
+    </div>
+
+    <!-- Short Profile info -->
+    <div class="cPageInfo">
+        <h2 class="cPageInfo-Name cResetH">
+			<?php
+			if (in_array(3, $user_parsing->groups))
+				echo $user->getDisplayName();
+			else
+				echo $user->username;
+			?>
+        </h2>
+        <div class="jomUserListTitle">
+            <h2 class="jomListTitle"><?php echo JText::_('COM_COMMUNITY_APPS_LIST_ABOUT'); ?></h2>
+        </div>
+        <div class="jomUserItemAbout" style="margin-bottom: 25px">
+			<?php echo K2JomUtilities::getUserDescription($profile->id); ?>
+        </div>
+
+		<div style="overflow: hidden">
+			{tab Wall}
+			<!-- init of wall tab -->
+			<div>
+				<?php require_once 'wall.inc.php'; ?>
+			</div>
+			<!-- end of wall tab -->
+			<?php if (in_array(3, $user_parsing->groups)) { ?>
+				{tab Articles |active }
+				<div class="jomUserListTitle">
+				   <!--<h2 class="jomListTitle"><?php echo JText::_('COM_COMMUNITY_ARTICLES'); ?></h2>-->
+					<?php
+					$application = JFactory::getApplication();
+					$menu = $application->getMenu();
+					$itemId = $menu->getActive()->id;
+					$items = K2JomUtilities::getArticles($profile->id, 4);
+					foreach ($items as $item):
+						$articleUrl = JRoute::_(JURI::base() . 'index.php?option=com_k2&view=item&id=' . $item->slug . "&Itemid=" . $itemId);
+						?>
+						<!-- Start K2 Item Layout -->
+						<div class="wrapperArticle">
+							<div class="jomUserItemHeader">
+								<h3 class="jomUserItemTitle">
+									<a href="<?php echo $articleUrl; ?>"><?php echo $item->title; ?></a>
+								</h3>
+								<!-- Date created -->
+								<span class="jomUserItemDateCreated">
+									<?php echo JHTML::_('date', $item->created, JText::_('K2_DATE_FORMAT_LC3')); ?>
+								</span>
+							</div>
+							<div class="jomUserItemBody">
+								<!-- Item introtext -->
+								<div class="jomUserItemIntroText">
+									<?php echo K2HelperUtilities::wordLimit(strip_tags($item->introtext, '<p><a><strong>'), 30) ?>
+								</div>
+								<div class="clr"></div>
+							</div>
+
+							<div class="clr"></div>
+							<div class="jomUserItemLinks">
+								<!-- Item tags -->
+								<div class="jomUserItemTagsBlock">
+									<?php
+									$i = 0;
+									foreach ($item->tags as $tag):++$i;
+										?>
+										<a href="<?php echo JRoute::_(JURI::base() . 'index.php?option=com_k2&view=itemlist&task=tag&tag=' . $tag->name . "&Itemid=" . $itemId); ?>"><?php echo $tag->name; ?></a><?php
+							if ($i < $item->numberOfTags)
+								echo ",&nbsp;";
+						endforeach;
+									?>
+									<div class="clr"></div>
+								</div>
+								<div class="jomUserItemReadMore"><a href="<?php echo $articleUrl; ?>"><?php echo JText::_('COM_COMMUNITY_READ_MORE'); ?>&nbsp;&gt;</a></div>
+								<div class="clr"></div>
+							</div>
+						</div>
+						<!-- End K2 Item Layout -->
+
+					<?php endforeach; ?>
+				</div>
+			<?php } //end if user is an author ?>
+			{tab Followers}
+			<!-- init of followers tab -->
+			<div>
+				<?php require_once 'followers.inc.php'; ?>
+			</div>
+			<!-- end of followers tab -->
+			{tab Following}
+			<!-- init of following tab -->
+			<div>
+				<?php require_once 'following.inc.php'; ?>
+			</div>
+
+			{tab Watch List}
+			<div>
+				<?php require_once 'watchlist.inc.php'; ?>
+			</div>
+
+			<?php //{tab Trending} require_once 'trending.inc.php'; ?>
+			{/tabs}
+
+        </div>
+
+
+		<?php if (false && $profile->status) { ?>
+			<div class="cPageInfo-Status">
+	            <span id="profile-status-message"><?php echo $profile->status; ?></span>
+	            <div class="small">- <?php echo $profile->posted_on; ?></div>
+			</div>
+		<?php } ?>
+
+    </div>
+</div>
+<!-- end: .profile-box -->
+
+
+<?php if (!$isMine): ?>
+	<div class="cPageTools clearfull" style="display:none">
+		<ul class="cPageToolbox cResetList cFloatedList clearfix">
+			<?php if (!$isFriend && !$isMine && !$isBlocked): ?>
+				<?php if (!$isWaitingApproval): ?>
+					<li>
+						<a href="javascript:void(0)" onclick="joms.friends.connect('<?php echo $profile->id; ?>')">
+							<i class="com-icon-user-plus"></i>
+							<span><?php echo JText::_('COM_COMMUNITY_PROFILE_ADD_AS_FRIEND'); ?></span>
+						</a>
+					</li>
+				<?php else : ?>
+					<li>
+						<a href="javascript:void(0)" onclick="joms.friends.connect('<?php echo $profile->id; ?>')">
+							<i class="com-icon-info"></i>
+							<span><?php echo JText::_('COM_COMMUNITY_PROFILE_PENDING_FRIEND_REQUEST'); ?></span>
+						</a>
+					</li>
+				<?php endif ?>
+
+			<?php endif; ?>
+
+			<?php if ($config->get('enablephotos')): ?>
+				<li>
+					<a href="<?php echo CRoute::_('index.php?option=com_community&view=photos&task=myphotos&userid=' . $profile->id); ?>">
+						<i class="com-icon-photos"></i>
+						<span><?php echo JText::_('COM_COMMUNITY_PHOTOS'); ?></span>
+					</a>
+				</li>
+			<?php endif; ?>
+
+			<?php if ($showBlogLink): ?>
+				<li>
+					<a href="<?php echo JRoute::_('index.php?option=com_myblog&blogger=' . $user->getDisplayName() . '&Itemid=' . $blogItemId); ?>">
+						<i class="com-icon-blog"></i>
+						<span><?php echo JText::_('COM_COMMUNITY_BLOG'); ?></span>
+					</a>
+				</li>
+			<?php endif; ?>
+
+			<?php if ($config->get('enablevideos')): ?>
+				<li>
+					<a href="<?php echo CRoute::_('index.php?option=com_community&view=videos&task=myvideos&userid=' . $profile->id); ?>">
+						<i class="com-icon-videos"></i>
+						<span><?php echo JText::_('COM_COMMUNITY_VIDEOS_GALLERY'); ?></span>
+					</a>
+				</li>
+			<?php endif; ?>
+
+			<?php if (!$isMine && $config->get('enablepm')): ?>
+				<li>
+					<a onclick="<?php echo $sendMsg; ?>" href="javascript:void(0);">
+						<i class="com-icon-mail-go"></i>
+						<span><?php echo JText::_('COM_COMMUNITY_INBOX_SEND_MESSAGE'); ?></span>
+					</a>
+				</li>
+			<?php endif; ?>
+		</ul>
+	</div>
+<?php endif; ?>
+
+
+<div class="cTabsBar cResponsive">
+    <ul class="cPageTabs cResetList cFloatedList clearfull">
+        <li class="cTabCurrent"><a href="#">Stream Feeds</a></li>
+        <li><a href="#">More Info</a></li>
+    </ul>
+</div>

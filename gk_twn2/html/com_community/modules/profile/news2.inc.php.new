@@ -1,0 +1,95 @@
+<?php
+$uid = JRequest::getVar('userid');
+$res = JFactory::getUser($uid);
+$symbol = $res->username; 
+
+$options = array(
+		 CURLOPT_RETURNTRANSFER => true, // return web page
+		 CURLOPT_HEADER         => false,// don't return headers
+		 CURLOPT_CONNECTTIMEOUT => 5     // timeout on connect
+	 );
+$url = "http://data.equities.com/dev/api/call.php?method=news_headline&symbol={$symbol}&parser=xml";
+$url = "http://data.equities.com/dev/api/call.php?method=google_news&q={$symbol}";
+
+$ch = curl_init( $url );
+curl_setopt_array( $ch, $options );
+$result = curl_exec( $ch ); //let's fetch the result using cURL
+$resultnews=json_decode($result, true);
+if($resultnews['flag']){
+	foreach($resultnews['data'] as $news):
+	?>
+		<div class="wrapperArticle">
+			<div class="jomUserItemHeader">
+				<h3 class="jomUserItemTitle" style="width:auto; font-size: 16px !important">
+					<a class="modal" rel="{handler: 'iframe', size: {x: 980, y: 800},scrollbars:0}" href='<?php echo $news['link']; ?>'><?php echo $news['title']; ?></a>
+				</h3>
+				<!-- Date created -->
+				<span class="jomUserItemDateCreated">
+					<?php echo JHTML::_('date', $news['pubDate'], JText::_('K2_DATE_FORMAT_LC3')); ?>
+				</span>
+			</div>
+			
+			<div class="jomUserItemBody">
+				
+				<div class="jomUserItemIntroText">
+					<?php echo $news['description']; ?>
+				</div>
+				<div class="clr"></div>  
+			</div>
+
+			<div class="clr"></div>
+			<div class="jomUserItemLinks">
+				
+				<div class="jomUserItemTagsBlock">
+					
+					<div class="clr"></div>
+				</div>
+				<div class="jomUserItemReadMore">
+				<a class="modal" rel="{handler: 'iframe', size: {x: 980, y: 800},scrollbars:0}" href='<?php echo $news['link']; ?>'><?php echo JText::_('COM_COMMUNITY_READ_MORE'); ?></a>
+				</div>
+				<div class="clr"></div>
+			</div>
+			
+		</div>
+	<?php
+	endforeach;
+}
+else
+{
+	echo JText::_('No Result Found.');
+}
+?>
+
+<div class="wrapperArticle">
+			<div class="jomUserItemHeader">
+				<h3 class="jomUserItemTitle" style="width:auto; font-size: 16px !important">
+					<a class="modal" rel="{handler: 'iframe', size: {x: 980, y: 800},scrollbars:0}" href='<?php echo $news['storyurl']; ?>'><?php //echo $news['headline']; ?></a>
+				</h3>
+				<!-- Date created -->
+				<span class="jomUserItemDateCreated">
+					<?php //echo JHTML::_('date', $news['datetime'], JText::_('K2_DATE_FORMAT_LC3')); ?>
+				</span>
+			</div>
+			
+			<div class="jomUserItemBody">
+				
+				<div class="jomUserItemIntroText">
+					<?php //echo $news['source']; ?>
+				</div>
+				<div class="clr"></div>
+			</div>
+
+			<div class="clr"></div>
+			<div class="jomUserItemLinks">
+				
+				<div class="jomUserItemTagsBlock">
+					
+					<div class="clr"></div>
+				</div>
+				<div class="jomUserItemReadMore">
+				<a class="modal" rel="{handler: 'iframe', size: {x: 980, y: 800},scrollbars:0}" href='<?php //echo $news['storyurl']; ?>'><?php //echo JText::_('COM_COMMUNITY_READ_MORE'); ?></a>
+				</div>
+				<div class="clr"></div>
+			</div>
+			
+		</div>
